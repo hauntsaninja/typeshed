@@ -759,7 +759,6 @@ threading.Lock
 threading.Semaphore.__enter__
 threading.Semaphore.acquire
 threading.Thread.__init__
-time.CLOCK_HIGHRES
 timeit.main
 traceback.FrameSummary.__init__
 traceback.TracebackException.__init__

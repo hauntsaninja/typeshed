@@ -92,8 +92,6 @@ struct.calcsize
 struct.iter_unpack
 struct.unpack
 struct.unpack_from
-time.CLOCK_PROF
-time.CLOCK_UPTIME
 tkinter.Menu.tk_bindForTraversal
 tkinter.Misc.tk_menuBar
 tracemalloc.Traceback.format

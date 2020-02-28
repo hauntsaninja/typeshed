@@ -15,18 +15,23 @@ daylight: int
 timezone: int
 tzname: Tuple[str, str]
 
-if sys.version_info >= (3, 7) and sys.platform != 'win32':
-    CLOCK_BOOTTIME: int  # Linux
-    CLOCK_PROF: int  # FreeBSD, NetBSD, OpenBSD
-    CLOCK_UPTIME: int  # FreeBSD, OpenBSD
+if sys.version_info >= (3, 7):
+    if sys.platform == 'linux':
+        CLOCK_BOOTTIME: int  # Linux
+    if sys.platform.startswith('freebsd') or sys.platform.startswith('openbsd'):
+        CLOCK_PROF: int  # FreeBSD, NetBSD, OpenBSD
+        CLOCK_UPTIME: int  # FreeBSD, OpenBSD
 
-if sys.version_info >= (3, 3) and sys.platform != 'win32':
-    CLOCK_HIGHRES: int  # Solaris only
-    CLOCK_MONOTONIC: int  # Unix only
-    CLOCK_MONOTONIC_RAW: int  # Linux 2.6.28 or later
-    CLOCK_PROCESS_CPUTIME_ID: int  # Unix only
-    CLOCK_REALTIME: int  # Unix only
-    CLOCK_THREAD_CPUTIME_ID: int  # Unix only
+if sys.version_info >= (3, 3):
+    if sys.platform.startswith('sunos'):
+        CLOCK_HIGHRES: int  # Solaris only
+    if sys.platform == 'linux':
+        CLOCK_MONOTONIC_RAW: int  # Linux 2.6.28 or later
+    if sys.platform != 'win32':
+        CLOCK_MONOTONIC: int  # Unix only
+        CLOCK_PROCESS_CPUTIME_ID: int  # Unix only
+        CLOCK_REALTIME: int  # Unix only
+        CLOCK_THREAD_CPUTIME_ID: int  # Unix only
 
 if sys.version_info >= (3, 8) and sys.platform == "darwin":
     CLOCK_UPTIME_RAW: int
