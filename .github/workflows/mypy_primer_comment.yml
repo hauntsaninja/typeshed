@@ -1,0 +1,87 @@
+name: Comment with mypy_primer diff
+
+on:
+  pull_request_target:
+
+jobs:
+  mypy_primer:
+    name: Comment with mypy_primer diff
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: npm install adm-zip
+      - name: Post comment
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs').promises;
+
+            // context.sha is the base
+            const pull_request = await github.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+            })
+            const pr_commit_sha = pull_request.data.head.sha
+            console.log("Looking for mypy_primer run for commit:", pr_commit_sha)
+
+            async function check_mypy_primer() {
+              const response = await github.actions.listWorkflowRuns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: "mypy_primer.yml",
+              })
+              if (response) {
+                return response.data.workflow_runs.find(run => run.head_sha == pr_commit_sha)
+              }
+              return undefined
+            }
+
+            const end_time = Number(new Date()) + 30 * 60 * 1000;
+            let primer_run = await check_mypy_primer();
+            while (!primer_run || primer_run.status != "completed") {
+              if (Number(new Date()) > end_time) {
+                throw Error("Timed out waiting for mypy_primer");
+              }
+              console.log("Waiting for mypy_primer to complete...")
+              await new Promise(r => setTimeout(r, 10000));
+              primer_run = await check_mypy_primer();
+            }
+            console.log("Found mypy_primer run!")
+            console.log(primer_run)
+
+            const artifacts = await github.actions.listWorkflowRunArtifacts({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: primer_run.id,
+            })
+            const artifact = artifacts.data.artifacts.find(a => a.name == "mypy_primer_diff")
+            console.log("Artifact from mypy_primer:")
+            console.log(artifact)
+
+            const zip = await github.actions.downloadArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id,
+                archive_format: "zip",
+            })
+
+            const AdmZip = require(`${process.env.GITHUB_WORKSPACE}/node_modules/adm-zip`)
+            const adm = new AdmZip(Buffer.from(zip.data))
+
+            const data = adm.readAsText(adm.getEntry("diff.txt"));
+            console.log("Diff from mypy_primer:")
+            console.log(data)
+            try {
+              if (data.trim()) {
+                await github.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: 'Diff from [mypy_primer](https://github.com/hauntsaninja/mypy_primer), showing the effect of this PR on open source code:\n```diff\n' + data + '```'
+                })
+              }
+            } catch (error) {
+              console.log(error)
+            }
