@@ -1,4 +1,4 @@
-mypy==0.960
+git+git://github.com/python/mypy@8a974e18d68daa59d6ab086dca81557c7d6dcd18
 pytype==2022.6.23; platform_system != "Windows"
 # must match .pre-commit-config.yaml
 black==22.6.0
