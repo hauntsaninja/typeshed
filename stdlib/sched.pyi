@@ -1,7 +1,6 @@
 import time
 from collections.abc import Callable
-from typing import Any, NamedTuple
-from typing_extensions import TypeAlias
+from typing import Any, NamedTuple, TypeAlias
 
 __all__ = ["scheduler"]
 

@@ -9,8 +9,8 @@ from importlib.abc import MetaPathFinder
 from importlib.metadata._meta import PackageMetadata as PackageMetadata, SimplePath
 from os import PathLike
 from re import Pattern
-from typing import Any, ClassVar, Generic, NamedTuple, TypeVar, overload, type_check_only
-from typing_extensions import Self, TypeAlias, deprecated, disjoint_base
+from typing import Any, ClassVar, Generic, NamedTuple, TypeAlias, TypeVar, overload, type_check_only
+from typing_extensions import Self, deprecated, disjoint_base
 
 _T = TypeVar("_T")
 _KT = TypeVar("_KT")
