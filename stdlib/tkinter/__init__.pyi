@@ -3742,16 +3742,27 @@ class _setit:
 # manual page: tk_optionMenu
 class OptionMenu(Menubutton):
     menuname: Incomplete
-    def __init__(
-        # differs from other widgets
-        self,
-        master: Misc | None,
-        variable: StringVar,
-        value: str,
-        *values: str,
-        # kwarg only from now on
-        command: Callable[[StringVar], object] | None = ...,
-    ) -> None: ...
+    if sys.version_info >= (3, 14):
+        def __init__(
+            # differs from other widgets
+            self,
+            master: Misc | None,
+            variable: StringVar,
+            value: str,
+            *values: str,
+            command: Callable[[StringVar], object] | None = ...,
+            name: str | None = None,
+        ) -> None: ...
+    else:
+        def __init__(
+            # differs from other widgets
+            self,
+            master: Misc | None,
+            variable: StringVar,
+            value: str,
+            *values: str,
+            command: Callable[[StringVar], object] | None = ...,
+        ) -> None: ...
     # configure, config, cget are inherited from Menubutton
     # destroy and __getitem__ are overridden, signature does not change
 
