@@ -168,25 +168,6 @@ posixpath.splitroot
 pprint.PrettyPrinter.__init__
 pprint.pformat
 pprint.pprint
-profiling
-profiling.sampling
-profiling.sampling.binary_collector
-profiling.sampling.binary_reader
-profiling.sampling.cli
-profiling.sampling.collector
-profiling.sampling.constants
-profiling.sampling.dump
-profiling.sampling.errors
-profiling.sampling.gecko_collector
-profiling.sampling.heatmap_collector
-profiling.sampling.jsonl_collector
-profiling.sampling.module_utils
-profiling.sampling.opcode_utils
-profiling.sampling.pstats_collector
-profiling.sampling.sample
-profiling.sampling.stack_collector
-profiling.sampling.string_table
-profiling.tracing
 site.addsitedir
 site.addsitepackages
 site.addusersitepackages
@@ -245,3 +226,39 @@ urllib.parse.urlunparse
 urllib.parse.urlunsplit
 xml.etree.ElementTree.__all__
 zipimport.zipimporter.load_module
+
+
+# =============================================================
+# Allowlist entries that cannot or should not be fixed; >= 3.15
+# =============================================================
+
+# Internal implementation details of the sampling profiler.
+profiling.sampling.binary_collector
+profiling.sampling.binary_reader
+profiling.sampling.cli
+profiling.sampling.constants
+profiling.sampling.dump
+profiling.sampling.errors
+profiling.sampling.gecko_collector.CATEGORY_CODE_TYPE
+profiling.sampling.gecko_collector.CATEGORY_CPU
+profiling.sampling.gecko_collector.CATEGORY_EXCEPTION
+profiling.sampling.gecko_collector.CATEGORY_GC
+profiling.sampling.gecko_collector.CATEGORY_GIL
+profiling.sampling.gecko_collector.CATEGORY_NATIVE
+profiling.sampling.gecko_collector.CATEGORY_OPCODES
+profiling.sampling.gecko_collector.CATEGORY_OTHER
+profiling.sampling.gecko_collector.CATEGORY_PYTHON
+profiling.sampling.gecko_collector.DEFAULT_SUBCATEGORY
+profiling.sampling.gecko_collector.FRAME_ADDRESS_NONE
+profiling.sampling.gecko_collector.FRAME_INLINE_DEPTH_ROOT
+profiling.sampling.gecko_collector.GECKO_CATEGORIES
+profiling.sampling.gecko_collector.GECKO_FORMAT_VERSION
+profiling.sampling.gecko_collector.GECKO_PREPROCESSED_VERSION
+profiling.sampling.gecko_collector.PROCESS_TYPE_MAIN
+profiling.sampling.gecko_collector.RESOURCE_TYPE_LIBRARY
+profiling.sampling.gecko_collector.STACKWALK_DISABLED
+profiling.sampling.heatmap_collector.FileStats
+profiling.sampling.heatmap_collector.TreeNode
+profiling.sampling.module_utils
+profiling.sampling.opcode_utils
+profiling.sampling.sample
